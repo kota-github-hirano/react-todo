@@ -12,6 +12,7 @@ export const App = () => {
   const onCangeTotoText = (event) => setTodoText(event.target.value);
   /** 変数eventのevent.target.valueに値は保持される*/
   const onClickAdd = () => {
+    if (TodoText === "") return; //1行なら{}もいらないのでreturnで返る用にする
     //alert(TodoText);
     const newTodos = [...incompleteTodos, TodoText];
     setincompleteTodos(newTodos);

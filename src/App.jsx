@@ -4,10 +4,11 @@ import "./styles.css";
 export const App = () => {
   const [TodoText, setTodoText] = useState("");
   const [incompleteTodos, setincompleteTodos] = useState([
-    "aaaaa",
-    "iiiiiiiii"
+    //"aaaaa",
+    //"iiiiiiiii"
   ]);
-  const [completeTodos, setcompleteTodos] = useState(["uuuu", "eeeeee"]);
+  const [completeTodos, setcompleteTodos] = useState([]);
+  //const [completeTodos, setcompleteTodos] = useState(["uuuu", "eeeeee"]);
 
   const onCangeTotoText = (event) => setTodoText(event.target.value);
   /** 変数eventのevent.target.valueに値は保持される*/
@@ -18,6 +19,36 @@ export const App = () => {
     setincompleteTodos(newTodos);
     setTodoText("");
   };
+
+  const onClickDelete = (index) => {
+    const newTodos = [...incompleteTodos];
+    //指定したindexから1つを削除
+    newTodos.splice(index, 1);
+    //上書き
+    setincompleteTodos(newTodos);
+    //alert(newTodos);
+  };
+
+  const onClickComplete = (index) => {
+    const newTodos2 = [...incompleteTodos];
+    //alert("完了")
+    //完了のTODOに追加
+    const newConpleteTodos = [...completeTodos, incompleteTodos[index]];
+    setcompleteTodos(newConpleteTodos);
+    //未完了のTODOから削除
+    newTodos2.splice(index, 1);
+    setincompleteTodos(newTodos2);
+  };
+
+  const onClickBuck = (index) => {
+    const newConpleteTodos2 = [...completeTodos];
+    newConpleteTodos2.splice(index, 1);
+    setcompleteTodos(newConpleteTodos2);
+
+    const newTodos3 = [...incompleteTodos, completeTodos[index]];
+    setincompleteTodos(newTodos3);
+  };
+
   return (
     <>
       <div className="input-area">
@@ -33,13 +64,14 @@ export const App = () => {
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          {incompleteTodos.map((todo) => {
+          {incompleteTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 {/* DOMで処理する際に何番目の要素か間違えないように keyを設定する */}
                 <li>{todo}</li>
-                <button>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
+                {/* 関数に引数を入れるときは新しくアロー関数[()=>]を定義する。しないと毎回呼び出されてしまう */}
+                <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             );
           })}
@@ -49,11 +81,11 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBuck(index)}>戻す</button>
               </div>
             );
           })}

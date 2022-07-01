@@ -26,6 +26,7 @@ li {
   margin-right: 8px;
 }
 
+/*コンポーネント内にjsでかく場合もある*/
 .input-area {
   background-color: #c1ffff;
   width: 400px; /*横幅*/
